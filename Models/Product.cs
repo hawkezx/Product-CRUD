@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyApp.Models
 {
@@ -11,5 +12,7 @@ namespace MyApp.Models
 
         [Range(0, 10000)]
         public decimal Price { get; set; }
+
+        public string? ImageUrl { get; set; }
     }
 }

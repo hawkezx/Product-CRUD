@@ -1,14 +1,16 @@
 ﻿@model IEnumerable<MyApp.Models.Product>
 
-<h2>All Products</h2>
-<a class="btn btn-primary" asp-action="Create">Create New</a>
+<h2>Product List</h2>
+
+<a asp-action="Create" class="btn btn-success mb-3">Create New</a>
 
 <table class="table">
     <thead>
         <tr>
             <th>Name</th>
             <th>Price</th>
-            <th>Actions</th>
+            <th>Image</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -18,7 +20,17 @@
                 <td>@item.Name</td>
                 <td>@item.Price</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="@item.ImageUrl" width="100" />
+                    }
+                    else
+                    {
+                        <span>No Image</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Edit</a>
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>

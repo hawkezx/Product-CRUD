@@ -146,6 +146,7 @@ D:\project\MyApp\obj\Debug\net9.0\MyApp.csproj.CoreCompileInputs.cache
 D:\project\MyApp\obj\Debug\net9.0\MyApp.MvcApplicationPartsAssemblyInfo.cache
 D:\project\MyApp\obj\Debug\net9.0\MyApp.RazorAssemblyInfo.cache
 D:\project\MyApp\obj\Debug\net9.0\MyApp.RazorAssemblyInfo.cs
+D:\project\MyApp\obj\Debug\net9.0\MyApp.sourcelink.json
 D:\project\MyApp\obj\Debug\net9.0\rjimswa.dswa.cache.json
 D:\project\MyApp\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
 D:\project\MyApp\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
