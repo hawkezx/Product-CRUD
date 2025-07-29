@@ -15,12 +15,6 @@ namespace MyApp.Controllers
             _env = env;
         }
 
-        public IActionResult Index()
-        {
-            var products = _unitOfWork.Products.GetAll();
-            return View(products);
-        }
-
         public IActionResult Create()
         {
             return View();
@@ -53,10 +47,14 @@ namespace MyApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            // Nếu có lỗi validation
             return View(product);
         }
 
+        public IActionResult Edit(int id)
+        {
+            var product = _unitOfWork.Products.Get(id);
+            return View(product);
+        }
 
         [HttpPost]
         public IActionResult Edit(Product product, IFormFile? Image)
@@ -66,14 +64,11 @@ namespace MyApp.Controllers
 
             if (ModelState.IsValid)
             {
-                // Cập nhật thông tin cơ bản
                 productFromDb.Name = product.Name;
                 productFromDb.Price = product.Price;
 
-                // Nếu có upload ảnh mới
                 if (Image != null)
                 {
-                    // Xóa ảnh cũ nếu có
                     if (!string.IsNullOrEmpty(productFromDb.ImageUrl))
                     {
                         string oldPath = Path.Combine(_env.WebRootPath, productFromDb.ImageUrl.TrimStart('/'));
@@ -83,7 +78,6 @@ namespace MyApp.Controllers
                         }
                     }
 
-                    // Upload ảnh mới
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(Image.FileName);
                     string imagePath = Path.Combine(_env.WebRootPath, "images", "products");
 
@@ -105,30 +99,12 @@ namespace MyApp.Controllers
             return View(productFromDb);
         }
 
-
-        public IActionResult Edit(int id)
-        {
-            var product = _unitOfWork.Products.Get(id);
-            return View(product);
-        }
-
-        // GET: Xác nhận xóa
+        [HttpPost]
         public IActionResult Delete(int id)
         {
             var product = _unitOfWork.Products.Get(id);
             if (product == null) return NotFound();
 
-            return View(product);
-        }
-
-        // POST: Thực hiện xóa
-        [HttpPost, ActionName("Delete")]
-        public IActionResult DeleteConfirmed(int id)
-        {
-            var product = _unitOfWork.Products.Get(id);
-            if (product == null) return NotFound();
-
-            // Xóa ảnh nếu có
             if (!string.IsNullOrEmpty(product.ImageUrl))
             {
                 string oldPath = Path.Combine(_env.WebRootPath, product.ImageUrl.TrimStart('/'));
@@ -144,5 +120,15 @@ namespace MyApp.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult Index(int page = 1)
+        {
+            int pageSize = 5;
+            var products = _unitOfWork.Products.GetPaged(page, pageSize, out int totalItems);
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+            return View(products);
+        }
     }
 }
